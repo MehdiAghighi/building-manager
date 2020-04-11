@@ -5,7 +5,7 @@ namespace App;
 use Hekmatinasser\Verta\Verta;
 use Illuminate\Database\Eloquent\Model;
 
-class factor extends Model
+class Factor extends Model
 {
     protected $guarded = [];
 
