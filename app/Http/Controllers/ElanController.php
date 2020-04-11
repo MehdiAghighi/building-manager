@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Borj;
 use App\Elan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class ElanController extends Controller
     {
         $user = Auth::user();
         $borj = $user->borj;
-        $elans = $borj->elans;
+        $elans = $borj->elans()->orderBy('created_at', 'desc')->get();
 
         return view('admin.pages.elan.index', [
             "user" => $user,
@@ -30,8 +31,14 @@ class ElanController extends Controller
 
     public function personIndex()
     {
-        $user = auth('api')->user()->with('borj')->first();
-        $elans = Elan::where('borj_id', $user->borj->id)->orderBy('created_at', 'desc')->get();
+        $user = auth('api')->user();
+        $borj = Borj::find($user->borj_id)->first();
+        if (!$borj) {
+            return response()->json([
+                "message" => "همچین برجی پیدا نشد"
+            ], 404);
+        }
+        $elans = Elan::where('borj_id', $borj->id)->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             "message" => "فاکتور‌ها با موفقیت دریافت شد",

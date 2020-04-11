@@ -21,7 +21,7 @@ class FactorController extends Controller
     {
         $user = Auth::user();
         $borj = $user->borj;
-        $factors = $borj->factors()->with('mostajerFactors');
+        $factors = $borj->factors()->with('mostajerFactors')->orderBy('created_at', 'desc');
 
         $factors_array = $factors->get()->toArray();
 
@@ -44,9 +44,8 @@ class FactorController extends Controller
      */
     public function personIndex()
     {
-        $user = auth('api')->user()->with('borj')->first();
+        $user = auth('api')->user();
         $mostajer_factors = MostajerFactor::where('mostajer_id', $user->id)->with('factor')->orderBy('created_at', 'desc')->get();
-
         return response()->json([
             "message" => "فاکتور‌ها با موفقیت دریافت شد",
             "mostajer_factors" => $mostajer_factors
