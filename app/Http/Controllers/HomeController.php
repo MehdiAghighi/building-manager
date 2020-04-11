@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Elan;
-use App\factor;
+use App\Factor;
 use App\MostajerFactor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
