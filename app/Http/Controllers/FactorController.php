@@ -38,6 +38,22 @@ class FactorController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function personIndex()
+    {
+        $user = auth('api')->user()->with('borj')->first();
+        $mostajer_factors = MostajerFactor::where('mostajer_id', $user->id)->with('factor')->orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            "message" => "فاکتور‌ها با موفقیت دریافت شد",
+            "mostajer_factors" => $mostajer_factors
+        ], 200);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

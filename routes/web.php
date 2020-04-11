@@ -59,4 +59,14 @@ Route::group([
         Route::get('/edit/{id}', 'MostajerFactorController@edit')->name('factor-mostajer__edit');
         Route::post('/update/{id}', 'MostajerFactorController@update')->name('factor-mostajer__update');
     });
+
+    Route::group([
+        "prefix" => "mostajers"
+    ], function() {
+        Route::get('/', 'MostajerController@index')->name('mostajer__index');
+        Route::get('/create', 'MostajerController@create')->name('mostajer__create');
+        Route::post('/store', 'MostajerController@store')->name('mostajer__store');
+//        Route::get('/{id}', 'ChatController@show')->name('chat__show');
+//        Route::post('/delete/{id}', 'ChatController@destroy')->name('chat__destroy');
+    });
 });

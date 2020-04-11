@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::group([
+    "prefix" => "auth"
+], function() {
+    Route::post('/login', 'Auth\LoginController@apiLogin');
+    Route::group([
+        "middleware" => ['jwt.verify']
+    ], function() {
+        Route::post('/logout', 'Auth\LoginController@apiLogout');
+        Route::get('/me', 'MostajerController@me');
+    });
+});
+
+Route::group([
+    "middleware" => ['jwt.verify']
+], function() {
+    Route::get('/home', 'HomeController@home');
+    Route::get('/factors', 'FactorController@personIndex');
+    Route::get('/elans', 'ElanController@personIndex');
 });

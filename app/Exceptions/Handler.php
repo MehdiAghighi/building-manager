@@ -50,6 +50,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        if ($request->wantsJson()) {
+            if ($exception instanceof AuthorizationException) {
+                return response()->json([
+                    "message" => "شما اجازه این کار را ندارید"
+                ], 403);
+            }
+            if ($exception->getCode() === 0) {
+                return response()->json([
+                    "message" => "با عرض پوزش مشکلی از طرف ما پیش آمده است. لطفا صبور باشید"
+                ], 500);
+            }
+            if ($exception->getCode() >= 1000) {
+                return response()->json([
+                    "message" => "مشکلی در ارتباط با دیتابیس پیش آمده. ما در حال مشکل هستیم لطفا صبور باشید"
+                ], 500);
+            }
+            if ($exception->getCode() === 500) {
+                return response()->json([
+                    "message" => "با عرض پوزش مشکلی از طرف ما پیش آمده است. لطفا صبور باشید"
+                ], 500);
+            }
+            return response()->json([
+                "message" => $exception->getMessage()
+            ], $exception->getCode() > 0 ? $exception->getCode() : 500);
+//        return parent::render($request, $exception);
+        } else {
+            return parent::render($request, $exception);
+        }
     }
 }

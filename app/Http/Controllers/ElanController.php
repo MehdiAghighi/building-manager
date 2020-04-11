@@ -28,6 +28,17 @@ class ElanController extends Controller
         ]);
     }
 
+    public function personIndex()
+    {
+        $user = auth('api')->user()->with('borj')->first();
+        $elans = Elan::where('borj_id', $user->borj->id)->orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            "message" => "فاکتور‌ها با موفقیت دریافت شد",
+            "elans" => $elans
+        ], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

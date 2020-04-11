@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
 {
@@ -42,6 +43,24 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+    public function apiLogin(Request $request) {
+
+        $credentials = $request->only('username', 'password');
+
+        try {
+            // attempt to verify the credentials and create a token for the user
+            if (! $token = auth('api')->attempt($credentials)) {
+                return response()->json(['error' => 'نام کاربر یا رمز عبور اشتباه می‌باشد'], 401);
+            }
+        } catch (JWTException $e) {
+            throw new \Exception('', 500);
+        }
+
+        return response()->json([
+            "message" => "با موفقیت وارد شدید",
+            "token" => $token
+        ], 200);
     }
 //
 //    protected function credentials(Request $request) {

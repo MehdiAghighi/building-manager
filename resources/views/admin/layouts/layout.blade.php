@@ -91,6 +91,13 @@
                                 class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">فاکتور‌ها</span>
                     </a>
                 </li>
+                <li class="ml-3 flex-1">
+                    <a href="{{ route('mostajer__index') }}"
+                       class="block text-center py-1 md:text-right md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ (request()->is('mostajers')) ? 'border-green-500' : 'border-gray-800' }} hover:border-green-500">
+                        <i class="fa fa-user pr-0 md:pl-3 {{ (request()->is('mostajers')) ? 'text-green-500' : '' }}"></i><span
+                                class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">مستاجر‌ها</span>
+                    </a>
+                </li>
             </ul>
         </div>
 

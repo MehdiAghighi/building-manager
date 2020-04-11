@@ -42,8 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'jwt',
+            'provider' => 'mostajers',
             'hash' => false,
         ],
     ],
@@ -70,6 +70,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+
+        'mostajers' => [
+            'driver' => 'eloquent',
+            'model' => App\Mostajer::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
