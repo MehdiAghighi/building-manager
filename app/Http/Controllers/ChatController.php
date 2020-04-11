@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Borj;
+use function GuzzleHttp\Promise\is_settled;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
@@ -16,12 +19,12 @@ class ChatController extends Controller
     {
         $user = Auth::user();
         $borj = $user->borj;
-        $chats = $borj->chats;
+        $chats = $borj->chats()->orderBy('created_at', 'desc')->get();
 
         return view('admin.pages.chat.index', [
             "user" => $user,
             "borj" => $borj->get()->toArray()[0],
-            "chats" => $chats->toArray()
+            "chats" => $chats
         ]);
     }
 
@@ -43,7 +46,46 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
+        $user = auth('api')->user();
+        $borj = Borj::find($user->borj_id)->first();
 
+        if (!$borj) {
+            return response()->json([
+                "message" => "برج مورد نظر پیدا نشد"
+            ], 404);
+        }
+
+        $data = $request->only(['title', 'text', 'image']);
+
+        $rules = [
+            'image' => ['nullable', 'file', 'image'],
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "message" => "لطفا فیلد ها را درست وارد کنید",
+                "errors" => $validator->errors()->toArray()
+            ], 422);
+        }
+
+        $picPath = is_null($request->file('image')) ? null : $request->file('image')->store('chats');
+        $picPath = is_null($picPath) ? null : str_replace('public/', '', $picPath);
+
+        $chat = $user->chats()->create([
+           'title' => $data['title'],
+           'image' => $picPath,
+           'text' => $data['text'],
+            'borj_id' => $borj->id
+        ]);
+
+        return response()->json([
+            "message" => "پیام ارسال شد",
+            "chat" => $chat
+        ], 201);
+
+//        dd($data);
     }
 
     /**

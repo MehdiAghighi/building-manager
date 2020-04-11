@@ -36,4 +36,6 @@ Route::group([
     Route::get('/home', 'HomeController@home');
     Route::get('/factors', 'FactorController@personIndex');
     Route::get('/elans', 'ElanController@personIndex');
+
+    Route::post('/chat', 'ChatController@store');
 });

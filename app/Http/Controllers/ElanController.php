@@ -41,7 +41,7 @@ class ElanController extends Controller
         $elans = Elan::where('borj_id', $borj->id)->orderBy('created_at', 'desc')->get();
 
         return response()->json([
-            "message" => "فاکتور‌ها با موفقیت دریافت شد",
+            "message" => "اعلان‌ها دریافت شد",
             "elans" => $elans
         ], 200);
     }
