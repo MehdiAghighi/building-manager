@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Borj;
 use App\Elan;
 use App\Factor;
 use App\MostajerFactor;
@@ -46,7 +47,14 @@ class HomeController extends Controller
     }
 
     public function home() {
-        $user = auth('api')->user()->with('borj')->first();
+        $user = auth('api')->user();
+        $borj = Borj::find($user->borj_id);
+        if (!$borj) {
+            return response()->json([
+                "message" => "همچین برجی وجود ندارد"
+            ]);
+        }
+        $user->borj = $borj;
 //        dd($user->borj->id);
         $last_elan = Elan::where("borj_id", $user->borj->id)->orderBy('created_at', 'desc');
         $last_factor = MostajerFactor::where("mostajer_id", $user->id)->orderBy('created_at', 'desc')->with('factor');

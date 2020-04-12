@@ -62,6 +62,7 @@
                     </div>
                 </div>
                 <!--/Metric Card-->
+                <a href="{{route('push')}}" class="py-2 px-4 rounded bg-teal-800 text-white text-xl m-5">Make a Push Notification!</a>
             </div>
         </div>
     </div>

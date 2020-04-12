@@ -107,4 +107,7 @@
         @yield('content')
     </div>
 </div>
+@auth
+    <script src="{{ asset('js/enable-push.js') }}" defer></script>
+@endauth
 </body>

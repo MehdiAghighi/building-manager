@@ -70,6 +70,9 @@ Route::group([
 //        Route::post('/delete/{id}', 'ChatController@destroy')->name('chat__destroy');
     });
 
+    Route::post('/push','PushController@store');
+    Route::get('/push','PushController@push')->name('push');
+
 
 });
 
