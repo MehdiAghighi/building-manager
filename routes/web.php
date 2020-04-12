@@ -69,4 +69,18 @@ Route::group([
 //        Route::get('/{id}', 'ChatController@show')->name('chat__show');
 //        Route::post('/delete/{id}', 'ChatController@destroy')->name('chat__destroy');
     });
+
+
+});
+
+Route::group([
+    "prefix" => "pardakht"
+], function() {
+    Route::group([
+        "prefix" => "factor"
+    ], function() {
+        Route::get('/send_request/{factor_id}', 'ZarinpalController@sendRequest')->name('pardakht__factor');
+        Route::get('/done/{factor_id}', 'ZarinpalController@done')->name('pardakht__factor-done');
+    });
+
 });

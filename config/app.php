@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Shetabit\Payment\Provider\PaymentServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -226,7 +227,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Payment' => Shetabit\Payment\Facade\Payment::class,
     ],
 
 ];
